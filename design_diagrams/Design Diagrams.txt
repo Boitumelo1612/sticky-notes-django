@@ -1,0 +1,71 @@
+1️⃣ Use Case Diagram
+
+Actor:
+
+User – interacts with the app via browser.
+
+Use Cases:
+Create Note
+View Notes List
+View Note Detail
+Edit Note
+Delete Note
+
+
+2️⃣ Class Diagram
+
+Classes:
+1.Note (Model)
+
+Fields:
+id: int
+title: str
+content: str
+created_at: datetime
+updated_at: datetime
+Methods: __str__()
+
+2.NoteForm (Form)
+Inherits: forms.ModelForm
+Meta:
+model = Note
+fields = ['title', 'content']
+
+Views
+
+Functions:
+notes_list()
+create_note()
+note_detail()
+edit_note()
+delete_note()
+
+Relationships:
+Views use NoteForm
+Views interact with Note model
+
+
+3️⃣ Sequence Diagram — Create Note Example
+
+Flow: User clicks “Create Note” → fills form → form submits → note saved → list updated
+
+@startuml
+actor User
+participant Browser
+participant Views
+participant NoteForm
+participant NoteModel
+database Database
+
+User -> Browser: Click "Create Note"
+Browser -> Views: GET /notes/new/
+Views -> Browser: Return NoteForm
+User -> Browser: Submit form (POST)
+Browser -> Views: POST /notes/new/ with data
+Views -> NoteForm: Validate data
+NoteForm -> NoteModel: Note.objects.create(...)
+NoteModel -> Database: INSERT new note
+Views -> Browser: Redirect to notes list
+Browser -> User: Display updated notes
+@enduml
+
