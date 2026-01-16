@@ -1,0 +1,40 @@
+<!-- sticky_notes/templates/home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sticky Notes</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; }
+        .note { background: yellow; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<h1>📝 Sticky Notes App</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Tittle" required><br><br>
+    <br><br>
+    <textarea name="content" placeholder="Write your note..." required></textarea><br><br>
+    <br><br>
+    <button type="submit">Add Note</button>
+</form>
+
+<hr>
+
+{% if notes %}
+    {% for note in notes %}
+        <div class="note">
+            <h3>{{ note.title }}</h3>
+            <p>{{ note.content }}</p>
+            <small>{{ note.created_at }}</small>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Form loaded correctly</p>
+{% endif %}
+
+</body>
+</html>
+
